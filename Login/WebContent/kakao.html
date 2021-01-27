@@ -1,0 +1,98 @@
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=ege" />
+<meta nmae="viewport"
+	content="user-scalable=no,inital-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,width=device-width">
+
+<title>:: Custom Login Demo - Kakao JavaScript SDK ::</title>
+//jjjjjjjjj
+<script type="text/javascript"
+	src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+
+<script type="text/javascript">
+	document.addEventListener(
+		"DOMContentLoaded",
+			function() {
+				// @details 카카오톡 Developer API 사이트에서 발급받은 JavaScript Key
+				Kakao.init("4b0c8f1d4fbe4c4261474e662468f4a2");
+				// @breif 카카오 로그인 버튼을 생성합니다.
+				Kakao.Auth.createLoginButton({
+					container : "#kakao-login-btn",
+					success : function(authObj) {
+					// console.log( authObj );
+					Kakao.API.request({
+						url : "/v2/user/me",
+						success : function(res) {
+						console.log( res );
+						// @breif 아이디
+						document.getElementById("kakaoIdentity").innerHTML = res.id;
+						// @breif 닉네임
+						document.getElementById("kakaoNickName").innerHTML = res.properties.nickname;
+						// @breif 프로필 이미지
+						document.getElementById("kakaoProfileImg").src = res.properties.profile_image;
+						// @breif 썸네일 이미지
+						document.getElementById("kakaoThumbnailImg").src = res.properties.thumbnail_image;
+						// @breif 이메일
+						document.getElementById("kakaoEmail").innerHTML = res.kakao_account.email;
+						// @breif 성별
+						document.getElementById("kakaoGender").innerHTML = res.kakao_account.gender;
+						// @breif 연령대
+						document.getElementById("kakaoAge_range").innerHTML = res.kakao_account.age_range;
+						// @breif 생일
+						document.getElementById("kakaoBirthday").innerHTML = res.kakao_account.birthday;
+						// @breif 출생년도//인증안됨
+						document.getElementById("kakaoBirthyear").innerHTML = res.kakao_account.birthyear;
+						// @breif 전화번호//인증안됨
+						document.getElementById("kakaoPhone_number").innerHTML = res.kakao_account.phone_number;
+						}
+						,
+						fail : function(error) {
+						alert(JSON.stringify(error));
+						}
+						})
+						console.log(authObj);
+						var token = authObj.access_token;;
+				},
+				fail : function(error) {
+					alert(JSON.stringify(error));
+				}
+			});
+});
+</script>
+</head>
+<body>
+	<div>
+		카카오 아이디 : <span id="kakaoIdentity"></span>
+	</div>
+	<div>
+		닉네임 : <span id="kakaoNickName"></span>
+	</div>
+	<div>
+		프로필 이미지 : <img id="kakaoProfileImg" src="" />
+	</div>
+	<div>
+		썸네일 이미지 : <img id="kakaoThumbnailImg" src="" />
+	</div>
+	<div>
+		이메일 : <span id="kakaoEmail"></span>
+	</div>
+	<div>
+		성별 : <span id="kakaoGender"></span>
+	</div>
+	<div>
+		연령대 : <span id="kakaoAge_range"></span>
+	</div>
+	<div>
+		생일 : <span id="kakaoBirthday"></span>
+	</div>
+	<div>
+		출생연도 : <span id="kakaoBirthyear"></span>
+	</div>
+	<div>
+		휴대폰번호 : <span id="kakaoPhone_number"></span>
+	</div>
+	<br />
+	<a id="kakao-login-btn"></a>
+</body>
+</html>
